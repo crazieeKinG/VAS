@@ -4,7 +4,7 @@ import "./login.css";
 
 export const Login = () => {
     return (
-        <div className="login">
+        <div className="login container">
             <Typography.Title level={2} className="login__title">
                 Login
             </Typography.Title>
