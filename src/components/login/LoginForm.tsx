@@ -1,7 +1,34 @@
 import { Button, Form, Input } from "antd";
+import { useState } from "react";
+
+interface Credential {
+    email: string;
+    password: string;
+}
 
 export const LoginForm = () => {
+    const [loginCredentials, setLoginCredentials] = useState<Credential>({
+        email: "",
+        password: ""
+    });
+
+    const [form] = Form.useForm();
+
     const handleLogin = (values: any) => {
+        if (values.email !== "test@test.com" || values.password !== "admin") {
+            form.setFieldsValue({
+                email: values.email,
+                password: "",
+            });
+
+            alert("Invalid Credentials");
+
+            return;
+        }
+
+        setLoginCredentials(loginCredentials);
+        form.resetFields();
+
         alert(`Logged in email: ${values.email}`);
     };
 
@@ -11,6 +38,7 @@ export const LoginForm = () => {
             onFinish={handleLogin}
             layout="vertical"
             className="login__form"
+            form={form}
         >
             <Form.Item
                 label="Email"
