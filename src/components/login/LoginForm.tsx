@@ -1,23 +1,26 @@
 import { Button, Form, Input } from "antd";
-import { useState } from "react";
-
-interface Credential {
-    email: string;
-    password: string;
-}
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../AuthContext";
 
 export const LoginForm = () => {
-    const [loginCredentials, setLoginCredentials] = useState<Credential>({
-        email: "",
-        password: ""
-    });
+    const navigate = useNavigate();
+    const authentication = { ...useContext(AuthContext) };
 
     const [form] = Form.useForm();
 
+    const redirectToHome = () => {
+        navigate("/");
+    };
+
+    const checkPreLogin = () => {
+        if (authentication.auth?.isLoggedIn) redirectToHome();
+    };
+
     const handleLogin = (values: any) => {
-        if (values.email !== "test@test.com" || values.password !== "admin") {
+        if (values.username !== "admin" || values.password !== "admin") {
             form.setFieldsValue({
-                email: values.email,
+                username: values.username,
                 password: "",
             });
 
@@ -26,11 +29,24 @@ export const LoginForm = () => {
             return;
         }
 
-        setLoginCredentials(loginCredentials);
+        const userDetails = {
+            username: values.username,
+            isLoggedIn: true,
+        };
+
+        authentication.setAuth?.(userDetails);
+
+        localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
         form.resetFields();
 
-        alert(`Logged in email: ${values.email}`);
+        alert(`Logged in username: ${values.username}`);
+        redirectToHome();
     };
+
+    useEffect(() => {
+        checkPreLogin();
+    });
 
     return (
         <Form
@@ -41,11 +57,11 @@ export const LoginForm = () => {
             form={form}
         >
             <Form.Item
-                label="Email"
-                name="email"
-                rules={[{ required: true, message: "Please enter your email" }]}
+                label="Username"
+                name="username"
+                rules={[{ required: true, message: "Please enter your username" }]}
             >
-                <Input type={"email"} placeholder="Enter email" />
+                <Input placeholder="Enter username" />
             </Form.Item>
 
             <Form.Item
