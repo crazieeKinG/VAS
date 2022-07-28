@@ -11,7 +11,7 @@ interface UserDetails {
     isLoggedIn: boolean;
 }
 
-interface AuthUser {
+export interface AuthUser {
     auth: UserDetails;
     setAuth: React.Dispatch<SetStateAction<UserDetails>>;
 }
@@ -19,7 +19,7 @@ interface AuthUser {
 export const AuthContext = createContext<AuthUser | undefined>(undefined);
 
 type Props = {
-    children: React.ReactNode;
+    children: JSX.Element;
 };
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
@@ -28,14 +28,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         isLoggedIn: false,
     };
 
-    const getStoredUserDetails = (): UserDetails => {
-        const localData = localStorage.getItem("userDetails");
-
-        if (localData !== null) {
-            return JSON.parse(localData);
-        }
-
-        return defaultUserDetails;
+    const getStoredUserDetails = () => {
+        const localData = localStorage.getItem("userDetails") as string;
+        return localData === null ? defaultUserDetails : JSON.parse(localData);
     };
 
     const storedUserDetails = getStoredUserDetails();

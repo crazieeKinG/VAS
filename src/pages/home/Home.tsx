@@ -1,33 +1,17 @@
-import { Col, Divider, Typography } from "antd";
+import { Button, Col, Divider, Row, Typography } from "antd";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext, AuthUser } from "../../AuthContext";
+import { RootState } from "../../store/store";
 import "./home.css";
 
 export const Home = () => {
-    const authentication = { ...useContext(AuthContext) };
-
-    const loggedInStatus = () => {
-        if (authentication.auth?.isLoggedIn)
-            return <Link to="/logout">Logout</Link>;
-        else return <Link to="/login">Proceed to Login</Link>;
-    };
+    const username = useSelector((state: RootState) => state.login.username);
 
     return (
-        <div className="container">
-            <div className="home">
-                <Typography.Title>
-                    Vaccination Appointment Scheduling
-                </Typography.Title>
-
-                {loggedInStatus()}
-
-                <Divider />
-
-                <Typography.Title level={3}>
-                    Welcome! {authentication.auth?.username}
-                </Typography.Title>
-            </div>
+        <div className="home">
+            <Typography.Title level={3}>Welcome! {username}</Typography.Title>
         </div>
     );
 };
