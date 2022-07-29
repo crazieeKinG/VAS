@@ -1,11 +1,16 @@
 import { Button, Form, Input } from "antd";
 import { useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../AuthContext";
+import { AuthContext, AuthUser } from "../../AuthContext";
+import { loggedIn } from "../../store/slice/authenticationSlice";
+import { RootState } from "../../store/store";
 
 export const LoginForm = () => {
     const navigate = useNavigate();
-    const authentication = { ...useContext(AuthContext) };
+    const authentication = useSelector((state: RootState) => state.login);
+    const dispatch = useDispatch();
 
     const [form] = Form.useForm();
 
@@ -14,7 +19,7 @@ export const LoginForm = () => {
     };
 
     const checkPreLogin = () => {
-        if (authentication.auth?.isLoggedIn) redirectToHome();
+        if (authentication.isLoggedIn) redirectToHome();
     };
 
     const handleLogin = (values: any) => {
@@ -29,14 +34,7 @@ export const LoginForm = () => {
             return;
         }
 
-        const userDetails = {
-            username: values.username,
-            isLoggedIn: true,
-        };
-
-        authentication.setAuth?.(userDetails);
-
-        localStorage.setItem("userDetails", JSON.stringify(userDetails));
+        dispatch(loggedIn(values.username));
 
         form.resetFields();
 
@@ -59,7 +57,9 @@ export const LoginForm = () => {
             <Form.Item
                 label="Username"
                 name="username"
-                rules={[{ required: true, message: "Please enter your username" }]}
+                rules={[
+                    { required: true, message: "Please enter your username" },
+                ]}
             >
                 <Input placeholder="Enter username" />
             </Form.Item>
