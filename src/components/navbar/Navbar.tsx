@@ -2,7 +2,7 @@ import { Button, Menu } from "antd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { HOME, LOGIN, LOGOUT } from "../../constants/navLinkConstants";
+import { ADD_PATIENT, HOME, LOGIN, LOGOUT } from "../../constants/navLinkConstants";
 import { RootState } from "../../store/store";
 
 export const Navbar = () => {
@@ -33,6 +33,11 @@ export const Navbar = () => {
                     <Menu.Item key="home">
                         <Link to={HOME}>
                             Vaccination Appointment Scheduling
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key={ADD_PATIENT}>
+                        <Link to={ADD_PATIENT}>
+                            New Patient
                         </Link>
                     </Menu.Item>
                     {loggedInStatus()}
