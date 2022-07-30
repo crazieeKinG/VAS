@@ -1,8 +1,5 @@
-import { Button, Col, Divider, Row, Typography } from "antd";
-import { useContext } from "react";
+import { Typography } from "antd";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { AuthContext, AuthUser } from "../../AuthContext";
 import { RootState } from "../../store/store";
 import "./home.css";
 
