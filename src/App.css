@@ -12,6 +12,14 @@
     margin: auto;
 }
 
+.width-30{
+    width: 33% !important;
+}
+
+.margin-top{
+    margin-top: 2rem;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .App-logo {
         animation: App-logo-spin infinite 20s linear;

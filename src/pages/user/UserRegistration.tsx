@@ -5,7 +5,7 @@ import { RootState } from "../../store/store";
 export const UserRegistration = () => {
     const patientData = useSelector((state: RootState) => state.patient.data);
     return (
-        <div>
+        <div className="container">
             <CreatePatientForm admin={false} />
 
             <div>
