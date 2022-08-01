@@ -7,7 +7,7 @@ export const CreatePatient = () => {
 
     return (
         <div className="container">
-            <CreatePatientForm />
+            <CreatePatientForm admin={true}/>
             <div>
                 Patient Information
                 <ul>

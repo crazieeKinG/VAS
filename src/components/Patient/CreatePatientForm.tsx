@@ -16,8 +16,11 @@ import "./createPatientForm.css";
 
 const { Item } = Form;
 const { Option } = Select;
+type Props = {
+    admin: boolean;
+};
 
-export const CreatePatientForm = () => {
+export const CreatePatientForm = (props: Props) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -41,7 +44,7 @@ export const CreatePatientForm = () => {
                 memberId: values.memberId,
                 insuranceProvider: values.insuranceProvider,
             },
-            document: values.document
+            document: values.document,
         };
         dispatch(setPatientDetails(formatedData));
 
@@ -199,10 +202,7 @@ export const CreatePatientForm = () => {
                 </Input.Group>
             </Item>
 
-            <Item
-                name="document"
-                label="Document Image"
-            >
+            <Item name="document" label="Document Image">
                 <Upload {...uploadProps}>
                     <Button>Upload</Button>
                 </Upload>
@@ -218,7 +218,7 @@ export const CreatePatientForm = () => {
                     htmlType="submit"
                     disabled={!aggrementChecked}
                 >
-                    Submit
+                    {props.admin ? "Submit" : "Register"}
                 </Button>
             </Item>
         </Form>
