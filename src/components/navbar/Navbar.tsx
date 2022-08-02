@@ -2,7 +2,7 @@ import { Button, Menu } from "antd";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { ADD_PATIENT, HOME, LOGIN, LOGOUT, REGISTER_PATIENT } from "../../constants/navLinkConstants";
+import { ADD_APPOINTMENT, ADD_PATIENT, HOME, LOGIN, LOGOUT, REGISTER_PATIENT } from "../../constants/navLinkConstants";
 import { RootState } from "../../store/store";
 
 export const Navbar = () => {
@@ -43,6 +43,11 @@ export const Navbar = () => {
                     <Menu.Item key={REGISTER_PATIENT}>
                         <Link to={REGISTER_PATIENT}>
                             Register
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key={ADD_APPOINTMENT}>
+                        <Link to={ADD_APPOINTMENT}>
+                            New Appointment
                         </Link>
                     </Menu.Item>
                     {loggedInStatus()}

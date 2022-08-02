@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { CreatePatientForm } from "../../components/Patient/CreatePatientForm";
-import { RootState } from "../../store/store";
+import { CreatePatientForm } from "../../../components/Patient/CreatePatientForm";
+import { RootState } from "../../../store/store";
 
 export const CreatePatient = () => {
     const patientData = useSelector((state: RootState) => state.patient.data);

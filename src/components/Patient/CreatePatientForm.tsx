@@ -11,8 +11,8 @@ import {
 } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
 import { setPatientDetails } from "../../store/slice/patientInformationSlice";
-import "./createPatientForm.css";
 
 const { Item } = Form;
 const { Option } = Select;
@@ -80,28 +80,28 @@ export const CreatePatientForm = (props: Props) => {
             <Item
                 label="First name"
                 name="firstName"
-                rules={[{ required: true, message: "Please fill this field!" }]}
+                rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <Input placeholder="Enter first name" />
             </Item>
             <Item
                 label="Last name"
                 name="lastName"
-                rules={[{ required: true, message: "Please fill this field!" }]}
+                rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <Input placeholder="Enter last name" />
             </Item>
             <Item
                 label="Date of birth"
                 name="dob"
-                rules={[{ required: true, message: "Please fill this field!" }]}
+                rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <DatePicker />
             </Item>
             <Item
                 label="Ethnicity"
                 name="ethnicity"
-                rules={[{ required: true, message: "Please fill this field!" }]}
+                rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <Input placeholder="Enter your ethnicity" />
             </Item>
@@ -126,36 +126,21 @@ export const CreatePatientForm = (props: Props) => {
                     <Item
                         name="city"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="City" />
                     </Item>
                     <Item
                         name="street"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="Street" />
                     </Item>
                     <Item
                         name="state"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="State" />
                     </Item>
@@ -166,36 +151,21 @@ export const CreatePatientForm = (props: Props) => {
                     <Item
                         name="insuranceId"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="Insurance ID" />
                     </Item>
                     <Item
                         name="memberId"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="Member ID" />
                     </Item>
                     <Item
                         name="insuranceProvider"
                         className="width-30"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please fill this field!",
-                            },
-                        ]}
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="Insurance Provider" />
                     </Item>
