@@ -13,14 +13,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
 import { setPatientDetails } from "../../store/slice/patientInformationSlice";
+import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
 const { Item } = Form;
 const { Option } = Select;
-type Props = {
-    admin: boolean;
-};
 
-export const CreatePatientForm = (props: Props) => {
+export const CreatePatientForm = (props: FormAdminPropsInterface) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<UploadFile[]>([]);

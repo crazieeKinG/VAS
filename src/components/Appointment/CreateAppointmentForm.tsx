@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
 import { LIST_APPOINTMENT } from "../../constants/navLinkConstants";
 import { setAppointment } from "../../store/slice/appointmentSlice";
+import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
-export const CreateAppointmentForm = () => {
+export const CreateAppointmentForm = (props: FormAdminPropsInterface) => {
     const { Item } = Form;
     const { Option } = Select;
 
@@ -73,7 +74,7 @@ export const CreateAppointmentForm = () => {
             </Item>
             <Item>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    {props.admin ? "Submit" : "Apply"}
                 </Button>
             </Item>
         </Form>
