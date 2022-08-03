@@ -1,6 +1,8 @@
 import { Button, Form, Input, InputNumber, Select } from "antd";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
+import { LIST_APPOINTMENT } from "../../constants/navLinkConstants";
 import { setAppointment } from "../../store/slice/appointmentSlice";
 
 export const CreateAppointmentForm = () => {
@@ -8,6 +10,7 @@ export const CreateAppointmentForm = () => {
     const { Option } = Select;
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleAppointment = (values: any) => {
         const formattedData = {
@@ -18,6 +21,7 @@ export const CreateAppointmentForm = () => {
         };
 
         dispatch(setAppointment(formattedData));
+        navigate(LIST_APPOINTMENT);
     };
 
     return (
@@ -50,7 +54,9 @@ export const CreateAppointmentForm = () => {
             >
                 <Select placeholder="Select service type">
                     <Option value="Verocel">Verocel</Option>
-                    <Option value="Johnson & Johnson’s JanssenF">Johnson & Johnson’s JanssenF</Option>
+                    <Option value="Johnson & Johnson’s JanssenF">
+                        Johnson & Johnson’s JanssenF
+                    </Option>
                 </Select>
             </Item>
             <Item
