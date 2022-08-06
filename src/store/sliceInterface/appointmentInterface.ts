@@ -1,4 +1,4 @@
-export interface AppointmentDetails {
+export interface appointmentInterface {
     patientId: string;
     siteLocation: string;
     serviceType: string;

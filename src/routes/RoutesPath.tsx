@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navbar } from "../components/navbar/Navbar";
-import { ADD_APPOINTMENT, ADD_PATIENT, ADD_VACCINATION, HOME, LIST_APPOINTMENT, LOGIN, LOGOUT, NO_PAGE, REGISTER_PATIENT, SCHEDULE_APPOINTMENT } from "../constants/navLinkConstants";
+import { ADD_APPOINTMENT, ADD_PATIENT, ADD_VACCINATION, HOME, LIST_APPOINTMENT, LIST_VACCINATION, LOGIN, LOGOUT, NO_PAGE, REGISTER_PATIENT, SCHEDULE_APPOINTMENT } from "../constants/navLinkConstants";
 import { Home } from "../pages/home/Home";
 import { Login } from "../pages/login/Login";
 import { Logout } from "../pages/logout/Logout";
@@ -8,6 +8,7 @@ import { CreateAppointment } from "../pages/manager/Appointment/CreateAppointmen
 import { ListAppointment } from "../pages/manager/Appointment/ListAppointment";
 import { CreatePatient } from "../pages/manager/Patient/CreatePatient";
 import { CreateVaccinationService } from "../pages/manager/Vaccine/CreateVaccinationService";
+import { ListVaccineService } from "../pages/manager/Vaccine/ListVaccinationService";
 import { ScheduleAppointment } from "../pages/user/Appointment/ScheduleAppointment";
 import { UserRegistration } from "../pages/user/UserRegistration";
 
@@ -40,6 +41,10 @@ export const RoutesPath = () => {
                     <Route
                         path={ADD_VACCINATION}
                         element={<CreateVaccinationService />}
+                    ></Route>
+                    <Route
+                        path={LIST_VACCINATION}
+                        element={<ListVaccineService />}
                     ></Route>
                 </Route>
                 <Route path={LOGIN} element={<Login />}></Route>
