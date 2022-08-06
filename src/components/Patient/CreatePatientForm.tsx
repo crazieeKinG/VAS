@@ -29,6 +29,8 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
         const formatedData = {
             firstName: values.firstName,
             lastName: values.lastName,
+            email: values.email,
+            password: values.password,
             dob: values.dob.format("YYYY-MM-DD").toString(),
             gender: values.gender,
             ethnicity: values.ethnicity,
@@ -67,7 +69,6 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
     const handleAggrement = () => {
         setAggrementChecked((prev: boolean) => !prev);
     };
-
     return (
         <Form
             labelAlign="left"
@@ -88,6 +89,21 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
                 rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <Input placeholder="Enter last name" />
+            </Item>
+
+            <Item
+                label="Email "
+                name="email"
+                rules={[{ ...FORM_DEFAULT_REQUIRED_RULE[0], type: "email" }]}
+            >
+                <Input placeholder="Enter email address" />
+            </Item>
+            <Item
+                label="Password"
+                name="password"
+                rules={FORM_DEFAULT_REQUIRED_RULE}
+            >
+                <Input.Password placeholder="Enter new password" />
             </Item>
             <Item
                 label="Date of birth"
@@ -122,18 +138,18 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
             <Item label="Registered Address" required>
                 <Input.Group compact>
                     <Item
-                        name="city"
-                        className="width-30"
-                        rules={FORM_DEFAULT_REQUIRED_RULE}
-                    >
-                        <Input placeholder="City" />
-                    </Item>
-                    <Item
                         name="street"
                         className="width-30"
                         rules={FORM_DEFAULT_REQUIRED_RULE}
                     >
                         <Input placeholder="Street" />
+                    </Item>
+                    <Item
+                        name="city"
+                        className="width-30"
+                        rules={FORM_DEFAULT_REQUIRED_RULE}
+                    >
+                        <Input placeholder="City" />
                     </Item>
                     <Item
                         name="state"
