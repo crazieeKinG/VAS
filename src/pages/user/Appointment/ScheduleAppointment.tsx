@@ -1,9 +1,9 @@
 import { CreateAppointmentForm } from "../../../components/Appointment/CreateAppointmentForm";
 
-export const CreateAppointment = () => {
+export const ScheduleAppointment = () => {
     return (
-        <div className="container">
-            <CreateAppointmentForm admin={true} />
+        <div>
+            <CreateAppointmentForm admin={false}/>
         </div>
     );
 };
