@@ -4,6 +4,8 @@ import { patientInformationInterface } from "../sliceInterface/patientInformatio
 const defaultPatientDetails: patientInformationInterface = {
     firstName: "",
     lastName: "",
+    email: "",
+    password: "",
     dob: "",
     gender: "",
     ethnicity: "",

@@ -13,6 +13,8 @@ export const CreatePatient = () => {
                 <ul>
                     <li>Name: {patientData.firstName} {patientData.lastName}</li>
                     <li>Date of birth: {patientData.dob}</li>
+                    <li>Email: {patientData.email}</li>
+                    <li>Password: {patientData.password}</li>
                     <li>Ethnicity: {patientData.ethnicity}</li>
                     <li>Gender: {patientData.gender}</li>
                     <li>Address: {patientData.address.street}, {patientData.address.city}, {patientData.address.state}</li>
