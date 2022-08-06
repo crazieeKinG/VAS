@@ -1,22 +1,22 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useSelector } from "react-redux";
-import { appointmentInterface } from "../../store/sliceInterface/appointmentInterface";
+import { vaccineServiceInterface } from "../../store/sliceInterface/vaccineServiceInterface";
 import { RootState } from "../../store/store";
 import CreateUpdateAndDeleteLinks from "../utils/CreateUpdateAndDeleteLinks";
 
-const columns: ColumnsType<appointmentInterface> = [
+const columns: ColumnsType<vaccineServiceInterface> = [
     {
-        title: "Patient ID",
-        dataIndex: "patientId",
+        title: "Service Name",
+        dataIndex: "serviceName",
     },
     {
-        title: "Site Location",
-        dataIndex: "siteLocation",
+        title: "Service Location",
+        dataIndex: "serviceLocation",
     },
     {
-        title: "Service Type",
-        dataIndex: "serviceType",
+        title: "Start Date",
+        dataIndex: "startDate",
     },
     {
         title: "Actions",
@@ -24,8 +24,8 @@ const columns: ColumnsType<appointmentInterface> = [
     },
 ];
 
-export const ListAppointmentTable = () => {
-    const data = useSelector((state: RootState) => state.appointment.data);
+export const ListVaccineServiceTable = () => {
+    const data = useSelector((state: RootState) => state.vaccine.data);
 
     return (
         <div>
