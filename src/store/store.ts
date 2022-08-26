@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { appointmentSlice } from "./slice/appointmentSlice";
 import { authenticationSlice } from "./slice/authenticationSlice";
+import { navbarSlice } from "./slice/interfaceSlice";
 import { patientInformationSlice } from "./slice/patientInformationSlice";
 import { vaccineSlice } from "./slice/vaccineSlice";
 
@@ -10,6 +11,7 @@ export const store = configureStore({
         patient: patientInformationSlice.reducer,
         appointment: appointmentSlice.reducer,
         vaccine: vaccineSlice.reducer,
+        navbar: navbarSlice.reducer,
     },
 });
 

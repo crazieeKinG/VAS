@@ -5,20 +5,26 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loggedIn } from "../../store/slice/authenticationSlice";
 import { RootState } from "../../store/store";
+import { SetCurrentPage } from "../../utils/SetCurrentPage";
 
-export const LoginForm = () => {
+interface Props {
+    redirectLink: string;
+    admin: boolean;
+}
+
+export const LoginForm = ({ redirectLink, admin }: Props) => {
     const navigate = useNavigate();
-    const authentication = useSelector((state: RootState) => state.login);
+    const authentication = useSelector((state: RootState) => state.login.data);
     const dispatch = useDispatch();
 
     const [form] = Form.useForm();
 
     const redirectToHome = () => {
-        navigate("/");
+        navigate(redirectLink);
     };
 
     const checkPreLogin = () => {
-        if (authentication.isLoggedIn) redirectToHome();
+        if (authentication.token && authentication.isAdmin) redirectToHome();
     };
 
     const handleLogin = (values: any) => {
@@ -33,7 +39,13 @@ export const LoginForm = () => {
             return;
         }
 
-        dispatch(loggedIn(values.username));
+        dispatch(
+            loggedIn({
+                username: values.username,
+                token: "token",
+                isAdmin: admin,
+            })
+        );
 
         form.resetFields();
 

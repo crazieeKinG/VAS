@@ -9,27 +9,26 @@ const defaultPatientDetails: patientInformationInterface = {
     dob: "",
     gender: "",
     ethnicity: "",
-    address: {
-        street: "",
-        state: "",
-        city: "",
-    },
-    payment: {
-        insuranceId: "",
-        memberId: "",
-        insuranceProvider: "",
-    },
-    document: {} as File
+    street: "",
+    state: "",
+    city: "",
+    insuranceId: "",
+    memberId: "",
+    insuranceProvider: "",
+    document: {} as File,
 };
 
 export const patientInformationSlice = createSlice({
     name: "Patient",
     initialState: {
-        data: defaultPatientDetails,
+        data: [] as patientInformationInterface[],
     },
     reducers: {
-        setPatientDetails: (state, action: PayloadAction<patientInformationInterface>) => {
-            state.data = action.payload;
+        setPatientDetails: (
+            state,
+            action: PayloadAction<patientInformationInterface>
+        ) => {
+            state.data.push(action.payload);
         },
     },
 });

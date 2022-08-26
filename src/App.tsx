@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AuthProvider } from "./AuthContext";
 import { RoutesPath } from "./routes/RoutesPath";
 import "./App.css";
 import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { RootState, store } from "./store/store";
+import { useSelector } from "react-redux";
 function App() {
     return (
         <div>

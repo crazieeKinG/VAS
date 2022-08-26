@@ -1,55 +1,96 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Navbar } from "../components/navbar/Navbar";
-import { ADD_APPOINTMENT, ADD_PATIENT, ADD_VACCINATION, HOME, LIST_APPOINTMENT, LIST_VACCINATION, LOGIN, LOGOUT, NO_PAGE, REGISTER_PATIENT, SCHEDULE_APPOINTMENT } from "../constants/navLinkConstants";
+import { UserNavbar } from "../components/navbar/UserNavbar";
+import * as route from "../constants/navLinkConstants";
+import { AppointmentList } from "../pages/Appointment/AppointmentList";
+import { ScheduleAppointment } from "../pages/Appointment/ScheduleAppointment.";
 import { Home } from "../pages/home/Home";
 import { Login } from "../pages/login/Login";
+import { ManagerLogin } from "../pages/login/ManagerLogin";
 import { Logout } from "../pages/logout/Logout";
-import { CreateAppointment } from "../pages/manager/Appointment/CreateAppointment";
-import { ListAppointment } from "../pages/manager/Appointment/ListAppointment";
-import { CreatePatient } from "../pages/manager/Patient/CreatePatient";
-import { CreateVaccinationService } from "../pages/manager/Vaccine/CreateVaccinationService";
-import { ListVaccineService } from "../pages/manager/Vaccine/ListVaccinationService";
-import { ScheduleAppointment } from "../pages/user/Appointment/ScheduleAppointment";
-import { UserRegistration } from "../pages/user/UserRegistration";
+import { PatientList } from "../pages/Patient/PatientList";
+import { Register } from "../pages/Patient/Register";
+import { VaccineList } from "../pages/Vaccine/VaccineList";
+import { VaccineRegister } from "../pages/Vaccine/VaccineRegister";
+import { RootState } from "../store/store";
+import { ManagerAuthenticatedRoutes } from "./ManagerAuthenticatedRoutes";
+import { UserAuthenticatedRoutes } from "./UserAuthenticatedRoutes";
 
 export const RoutesPath = () => {
+    const title = useSelector((state: RootState) => state.navbar.data.title);
+
+    useEffect(() => {
+        document.title = title;
+    }, [title]);
+    
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={HOME} element={<Navbar />}>
+                <Route path={route.HOME} element={<UserNavbar />}>
                     <Route index element={<Home />}></Route>
                     <Route
-                        path={ADD_PATIENT}
-                        element={<CreatePatient />}
-                    ></Route>
-                    <Route
-                        path={REGISTER_PATIENT}
-                        element={<UserRegistration />}
-                    ></Route>
-                    <Route
-                        path={ADD_APPOINTMENT}
-                        element={<CreateAppointment />}
-                    ></Route>
-                    <Route
-                        path={LIST_APPOINTMENT}
-                        element={<ListAppointment />}
-                    ></Route>
-                    <Route
-                        path={SCHEDULE_APPOINTMENT}
-                        element={<ScheduleAppointment />}
-                    ></Route>
-                    <Route
-                        path={ADD_VACCINATION}
-                        element={<CreateVaccinationService />}
-                    ></Route>
-                    <Route
-                        path={LIST_VACCINATION}
-                        element={<ListVaccineService />}
-                    ></Route>
+                        path={route.REGISTER_PATIENT}
+                        element={<Register />}
+                    />
                 </Route>
-                <Route path={LOGIN} element={<Login />}></Route>
-                <Route path={LOGOUT} element={<Logout />}></Route>
-                <Route path={NO_PAGE} element={<div>No page</div>}></Route>
+
+                <Route path={route.HOME} element={<UserAuthenticatedRoutes />}>
+                    <Route
+                        path={route.SCHEDULE_APPOINTMENT}
+                        element={<ScheduleAppointment />}
+                    />
+                    <Route
+                        path={route.PATIENT_APPOINTMENT}
+                        element={<AppointmentList />}
+                    />
+                </Route>
+                <Route
+                    path={route.MANAGER}
+                    element={<ManagerAuthenticatedRoutes />}
+                >
+                    <Route path={route.ADD_PATIENT} element={<Register />} />
+                    <Route path={route.UPDATE_PATIENT} element={<Register />} />
+                    <Route
+                        path={route.LIST_PATIENT}
+                        element={<PatientList />}
+                    />
+                    <Route
+                        path={route.ADD_APPOINTMENT}
+                        element={<ScheduleAppointment />}
+                    />
+                    <Route
+                        path={route.UPDATE_APPOINTMENT}
+                        element={<ScheduleAppointment />}
+                    />
+                    <Route
+                        path={route.LIST_APPOINTMENT}
+                        element={<AppointmentList />}
+                    />
+                    <Route
+                        path={route.ADD_VACCINATION}
+                        element={<VaccineRegister />}
+                    />
+                    <Route
+                        path={route.UPDATE_VACCINATION}
+                        element={<VaccineRegister />}
+                    />
+                    <Route
+                        path={route.LIST_VACCINATION}
+                        element={<VaccineList />}
+                    />
+                </Route>
+
+                <Route path={route.MANAGER_LOGIN} element={<ManagerLogin />} />
+                <Route path={route.LOGIN} element={<Login />}></Route>
+                <Route path={route.LOGOUT} element={<Logout />}></Route>
+
+                <Route
+                    path={route.NO_PAGE}
+                    element={
+                        <h1 className="container margin-top">Page Not Found</h1>
+                    }
+                ></Route>
             </Routes>
         </BrowserRouter>
     );

@@ -1,10 +1,13 @@
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
+import { LIST_VACCINATION } from "../../constants/navLinkConstants";
 import { setVaccine } from "../../store/slice/vaccineSlice";
 
 export const VaccineServiceForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { Item } = Form;
     const { Option } = Select;
 
@@ -21,6 +24,7 @@ export const VaccineServiceForm = () => {
         };
 
         dispatch(setVaccine(formattedData));
+        navigate(LIST_VACCINATION);
     };
 
     return (

@@ -1,28 +1,35 @@
-import { Button, Form, Input, InputNumber, Select } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
-import { LIST_APPOINTMENT } from "../../constants/navLinkConstants";
+import {
+    LIST_APPOINTMENT,
+    PATIENT_APPOINTMENT,
+} from "../../constants/navLinkConstants";
 import { setAppointment } from "../../store/slice/appointmentSlice";
+import { RootState } from "../../store/store";
 import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
-export const CreateAppointmentForm = (props: FormAdminPropsInterface) => {
+export const AppointmentForm = (props: FormAdminPropsInterface) => {
     const { Item } = Form;
     const { Option } = Select;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const admin = useSelector((state: RootState) => state.login.data.isAdmin);
 
     const handleAppointment = (values: any) => {
         const formattedData = {
             patientId: values.patientId,
             siteLocation: values.siteLocation,
             serviceType: values.serviceType,
+            appointmentDate: values.appointmentDate.format("YYYY-MM-DD"),
             confirmationCode: values.confirmationCode,
         };
 
         dispatch(setAppointment(formattedData));
-        navigate(LIST_APPOINTMENT);
+        navigate(admin ? LIST_APPOINTMENT : PATIENT_APPOINTMENT);
     };
 
     return (
@@ -59,6 +66,13 @@ export const CreateAppointmentForm = (props: FormAdminPropsInterface) => {
                         Johnson & Johnson’s JanssenF
                     </Option>
                 </Select>
+            </Item>
+            <Item
+                label="Appointment date"
+                name="appointmentDate"
+                rules={FORM_DEFAULT_REQUIRED_RULE}
+            >
+                <DatePicker />
             </Item>
             <Item
                 name="confirmationCode"
