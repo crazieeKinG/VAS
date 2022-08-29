@@ -8,11 +8,10 @@ import { RootState } from "../../store/store";
 
 export const Logout = () => {
     const navigate = useNavigate();
-    const authentication = useSelector((state: RootState) => state.login);
+    const authentication = useSelector((state: RootState) => state.login.data);
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-        localStorage.removeItem("userDetails");
         dispatch(loggedOut());
         navigate("/");
     };

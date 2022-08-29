@@ -3,28 +3,21 @@ import { ColumnsType } from "antd/es/table";
 import { useSelector } from "react-redux";
 import { vaccineServiceInterface } from "../../store/sliceInterface/vaccineServiceInterface";
 import { RootState } from "../../store/store";
-import CreateUpdateAndDeleteLinks from "../utils/CreateUpdateAndDeleteLinks";
+import { UpdateAndDeleteLinks } from "../utils/UpdateAndDeleteLinks";
 
 const columns: ColumnsType<vaccineServiceInterface> = [
+    { key: "serviceName", title: "Service Name", dataIndex: "serviceName" },
     {
-        title: "Service Name",
-        dataIndex: "serviceName",
-    },
-    {
+        key: "serviceLocation",
         title: "Service Location",
         dataIndex: "serviceLocation",
     },
-    {
-        title: "Start Date",
-        dataIndex: "startDate",
-    },
-    {
-        title: "Actions",
-        render: CreateUpdateAndDeleteLinks,
-    },
+    { key: "startDate", title: "Start Date", dataIndex: "startDate" },
+    { key: "enddate", title: "End Date", dataIndex: "endDate" },
+    { key: "actions", title: "Actions", render: UpdateAndDeleteLinks },
 ];
 
-export const ListVaccineServiceTable = () => {
+export const VaccineServiceTable = () => {
     const data = useSelector((state: RootState) => state.vaccine.data);
 
     return (
@@ -32,7 +25,8 @@ export const ListVaccineServiceTable = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{ pageSize: 1 }}
+                pagination={{ pageSize: 2 }}
+                rowKey="serviceName"
             />
         </div>
     );

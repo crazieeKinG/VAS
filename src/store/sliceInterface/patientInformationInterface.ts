@@ -1,15 +1,3 @@
-interface address {
-    state: string;
-    street: string;
-    city: string;
-}
-
-interface insurance {
-    insuranceId: string;
-    memberId: string;
-    insuranceProvider: string;
-}
-
 export interface patientInformationInterface {
     firstName: string;
     lastName: string;
@@ -18,7 +6,11 @@ export interface patientInformationInterface {
     dob: string;
     gender: string;
     ethnicity: string;
-    address: address;
-    payment: insurance;
+    state: string;
+    street: string;
+    city: string;
+    insuranceId: string;
+    memberId: string;
+    insuranceProvider: string;
     document: File;
 }

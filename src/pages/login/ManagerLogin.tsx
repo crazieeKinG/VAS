@@ -1,21 +1,21 @@
 import { Divider, Typography } from "antd";
 import { LoginForm } from "../../components/login/LoginForm";
-import { HOME } from "../../constants/navLinkConstants";
+import { LIST_APPOINTMENT } from "../../constants/navLinkConstants";
 import { SetCurrentPage } from "../../utils/SetCurrentPage";
 import "./login.css";
 
-export const Login = () => {
-    SetCurrentPage("Login", "Vaccine Appointment Scheduling", "login");
+export const ManagerLogin = () => {
+    SetCurrentPage("Manager Login", "Vaccine Appointment Scheduling", "adminLogin");
     
     return (
         <div className="login container">
             <Typography.Title level={2} className="login__title">
-                Login
+                Manager Login
             </Typography.Title>
 
             <Divider />
 
-            <LoginForm redirectLink={HOME} admin={false}  />
+            <LoginForm redirectLink={LIST_APPOINTMENT} admin={true} />
         </div>
     );
 };

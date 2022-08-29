@@ -3,27 +3,34 @@ import { authenticationInterface } from "../sliceInterface/authenticationInterfa
 
 const defaultUserDetails: authenticationInterface = {
     username: "",
-    isLoggedIn: false,
+    token: "",
+    isAdmin: false,
 };
 
 const initialState = () => {
-    const localData = localStorage.getItem("userDetails") as string;
+    const localData = localStorage.getItem("token") as string;
     return localData === null ? defaultUserDetails : JSON.parse(localData);
 };
 
 export const authenticationSlice = createSlice({
     name: "authentication",
-    initialState: initialState(),
+    initialState: {
+        data: defaultUserDetails,
+    },
     reducers: {
-        loggedIn: (state: authenticationInterface, action: PayloadAction<string>) => {
-            state.username = action.payload;
-            state.isLoggedIn = true;
-            localStorage.setItem("userDetails", JSON.stringify(state));
+        loggedIn: (state, action: PayloadAction<authenticationInterface>) => {
+            state.data.username = action.payload.username;
+            state.data.token = "token";
+            state.data.isAdmin = action.payload.isAdmin;
+            localStorage.setItem("username", JSON.stringify(action.payload));
+            localStorage.setItem("token", JSON.stringify("token"));
         },
         loggedOut: (state) => {
-            state.username = "";
-            state.isLoggedIn = false;
-            localStorage.removeItem("userDetails");
+            state.data.username = "";
+            state.data.token = "";
+            state.data.isAdmin = false;
+            localStorage.removeItem("username");
+            localStorage.removeItem("token");
         },
     },
 });

@@ -6,22 +6,25 @@ import {
     Input,
     Select,
     Upload,
-    UploadFile,
-    UploadProps,
 } from "antd";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
+import { LIST_PATIENT, LOGIN } from "../../constants/navLinkConstants";
 import { setPatientDetails } from "../../store/slice/patientInformationSlice";
+import { RootState } from "../../store/store";
 import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
 const { Item } = Form;
 const { Option } = Select;
 
-export const CreatePatientForm = (props: FormAdminPropsInterface) => {
+export const PatientForm = (props: FormAdminPropsInterface) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const admin = useSelector((state: RootState) => state.login.data.isAdmin);
     const [form] = Form.useForm();
-    const [fileList, setFileList] = useState<UploadFile[]>([]);
 
     const [aggrementChecked, setAggrementChecked] = useState(false);
 
@@ -34,45 +37,29 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
             dob: values.dob.format("YYYY-MM-DD").toString(),
             gender: values.gender,
             ethnicity: values.ethnicity,
-            address: {
-                state: values.state,
-                street: values.street,
-                city: values.city,
-            },
-            payment: {
-                insuranceId: values.insuranceId,
-                memberId: values.memberId,
-                insuranceProvider: values.insuranceProvider,
-            },
-            document: values.document,
+            state: values.state,
+            street: values.street,
+            city: values.city,
+            insuranceId: values.insuranceId,
+            memberId: values.memberId,
+            insuranceProvider: values.insuranceProvider,
+            document: values.document?.file,
         };
+
         dispatch(setPatientDetails(formatedData));
-
+        navigate(admin ? LIST_PATIENT : LOGIN);
         form.resetFields();
-    };
-
-    const uploadProps: UploadProps = {
-        onRemove: (file) => {
-            const index = fileList.indexOf(file);
-            const newFileList = fileList.slice();
-            newFileList.splice(index, 1);
-            setFileList(newFileList);
-        },
-        beforeUpload: (file) => {
-            setFileList([...fileList, file]);
-
-            return false;
-        },
-        fileList,
     };
 
     const handleAggrement = () => {
         setAggrementChecked((prev: boolean) => !prev);
     };
+
     return (
         <Form
+            form={form}
             labelAlign="left"
-            labelCol={{ span: 8 }}
+            labelCol={{ span: 5 }}
             onFinish={handleForm}
             className="margin-top"
         >
@@ -186,8 +173,12 @@ export const CreatePatientForm = (props: FormAdminPropsInterface) => {
                 </Input.Group>
             </Item>
 
-            <Item name="document" label="Document Image">
-                <Upload {...uploadProps}>
+            <Item name="document" label="Document">
+                <Upload
+                    beforeUpload={() => false}
+                    maxCount={1}
+                    fileList={undefined}
+                >
                     <Button>Upload</Button>
                 </Upload>
             </Item>
