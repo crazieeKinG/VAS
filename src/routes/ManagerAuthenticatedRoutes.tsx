@@ -7,8 +7,8 @@ import { RootState } from "../store/store";
 
 export const ManagerAuthenticatedRoutes = () => {
     const authentication = useSelector((state: RootState) => state.login.data);
-
-    return authentication.token && authentication.isAdmin ? (
+    
+    return authentication.accessToken && authentication.isAdmin ? (
         <ManagerNavbar />
     ) : (
         <Navigate to={MANAGER_LOGIN} />

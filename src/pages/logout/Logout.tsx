@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loggedOut } from "../../store/slice/authenticationSlice";
+import { logout } from "../../store/slice/authenticationSlice";
 import { RootState } from "../../store/store";
 
 export const Logout = () => {
@@ -11,13 +11,12 @@ export const Logout = () => {
     const authentication = useSelector((state: RootState) => state.login.data);
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
-        dispatch(loggedOut());
-        navigate("/");
+    const handleLogout = async () => {
+        await dispatch(logout());
     };
 
     useEffect(() => {
-        handleLogout();
+        handleLogout().then(() => navigate("/"));
     }, []);
 
     return (

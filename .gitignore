@@ -8,6 +8,7 @@
 # testing
 /coverage
 .scannerwork
+.env
 
 # production
 /build

@@ -1,7 +1,7 @@
 export interface appointmentInterface {
-    patientId: string;
+    id?: number;
+    patientId: number;
     siteLocation: string;
     serviceType: string;
     appointmentDate: string;
-    confirmationCode: number;
 }

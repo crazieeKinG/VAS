@@ -1,6 +1,8 @@
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import moment from "moment";
 import { useSelector } from "react-redux";
+import { UPDATE_VACCINATION } from "../../constants/navLinkConstants";
 import { vaccineServiceInterface } from "../../store/sliceInterface/vaccineServiceInterface";
 import { RootState } from "../../store/store";
 import { UpdateAndDeleteLinks } from "../utils/UpdateAndDeleteLinks";
@@ -12,9 +14,36 @@ const columns: ColumnsType<vaccineServiceInterface> = [
         title: "Service Location",
         dataIndex: "serviceLocation",
     },
-    { key: "startDate", title: "Start Date", dataIndex: "startDate" },
-    { key: "enddate", title: "End Date", dataIndex: "endDate" },
-    { key: "actions", title: "Actions", render: UpdateAndDeleteLinks },
+    {
+        key: "numberOfDoses",
+        title: "Number Of Doses",
+        dataIndex: "numberOfDoses",
+    },
+    {
+        key: "startDate",
+        title: "Start Date",
+        dataIndex: "startDate",
+        render: (value) => moment(value).format("YYYY-MM-DD"),
+    },
+    {
+        key: "enddate",
+        title: "End Date",
+        dataIndex: "endDate",
+        render: (value) => moment(value).format("YYYY-MM-DD"),
+    },
+    {
+        key: "actions",
+        title: "Actions",
+        render: (value) => (
+            <UpdateAndDeleteLinks
+                updateLink={`${UPDATE_VACCINATION.replace(
+                    ":vaccineId",
+                    value.id
+                )}`}
+                deleteLink={{ type: "vaccine", id: value.id }}
+            />
+        ),
+    },
 ];
 
 export const VaccineServiceTable = () => {
@@ -25,8 +54,8 @@ export const VaccineServiceTable = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{ pageSize: 2 }}
-                rowKey="serviceName"
+                pagination={{ pageSize: 10 }}
+                rowKey="id"
             />
         </div>
     );

@@ -1,11 +1,11 @@
-import { Button, Form, Input } from "antd";
+import { Alert, Button, Form, Input } from "antd";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loggedIn } from "../../store/slice/authenticationSlice";
-import { RootState } from "../../store/store";
-import { SetCurrentPage } from "../../utils/SetCurrentPage";
+import { FULFILLED, PENDING, REJECTED } from "../../constants/sliceConstants";
+import { login } from "../../store/slice/authenticationSlice";
+import { AppDispatch, RootState } from "../../store/store";
 
 interface Props {
     redirectLink: string;
@@ -14,48 +14,28 @@ interface Props {
 
 export const LoginForm = ({ redirectLink, admin }: Props) => {
     const navigate = useNavigate();
-    const authentication = useSelector((state: RootState) => state.login.data);
-    const dispatch = useDispatch();
+    const { loading, data, message } = useSelector(
+        (state: RootState) => state.login
+    );
+    const dispatch = useDispatch<AppDispatch>();
 
-    const [form] = Form.useForm();
-
-    const redirectToHome = () => {
+    const redirect = () => {
         navigate(redirectLink);
     };
 
     const checkPreLogin = () => {
-        if (authentication.token && authentication.isAdmin) redirectToHome();
+        if (data.accessToken && data.isAdmin === admin) redirect();
     };
 
-    const handleLogin = (values: any) => {
-        if (values.username !== "admin" || values.password !== "admin") {
-            form.setFieldsValue({
-                username: values.username,
-                password: "",
-            });
-
-            alert("Invalid Credentials");
-
-            return;
-        }
-
-        dispatch(
-            loggedIn({
-                username: values.username,
-                token: "token",
-                isAdmin: admin,
-            })
-        );
-
-        form.resetFields();
-
-        alert(`Logged in username: ${values.username}`);
-        redirectToHome();
+    const handleLogin = async (values: any) => {
+        await dispatch(login(values));
+        console.log(loading);
     };
 
     useEffect(() => {
         checkPreLogin();
-    });
+        if (loading === FULFILLED && data.isAdmin === admin) redirect();
+    }, [loading]);
 
     return (
         <Form
@@ -63,16 +43,13 @@ export const LoginForm = ({ redirectLink, admin }: Props) => {
             onFinish={handleLogin}
             layout="vertical"
             className="login__form"
-            form={form}
         >
             <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                    { required: true, message: "Please enter your username" },
-                ]}
+                label="Email"
+                name="email"
+                rules={[{ required: true, message: "Please enter your email" }]}
             >
-                <Input placeholder="Enter username" />
+                <Input placeholder="Enter email" />
             </Form.Item>
 
             <Form.Item
@@ -86,9 +63,29 @@ export const LoginForm = ({ redirectLink, admin }: Props) => {
             </Form.Item>
 
             <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading === PENDING}
+                >
                     Login
                 </Button>
+                {loading === REJECTED && (
+                    <Alert
+                        message={message}
+                        showIcon
+                        style={{ marginTop: "1rem" }}
+                        type="error"
+                    />
+                )}
+                {!data.isAdmin && true === admin && loading === FULFILLED && (
+                    <Alert
+                        message="User not Authorizied"
+                        showIcon
+                        style={{ marginTop: "1rem" }}
+                        type="error"
+                    />
+                )}
             </Form.Item>
         </Form>
     );

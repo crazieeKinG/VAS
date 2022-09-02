@@ -6,7 +6,7 @@ import { RootState } from "../store/store";
 
 export const UserAuthenticatedRoutes = () => {
     const authentication = useSelector(
-        (state: RootState) => state.login.data.token
+        (state: RootState) => state.login.data.accessToken
     );
 
     return authentication ? <UserNavbar /> : <Navigate to={LOGIN} />;
