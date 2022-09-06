@@ -1,7 +1,8 @@
+import { getValue } from "@testing-library/user-event/dist/utils";
 import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { UPDATE_APPOINTMENT } from "../../constants/navLinkConstants";
 import { appointmentInterface } from "../../store/sliceInterface/appointmentInterface";
 import { RootState } from "../../store/store";
 import { UpdateAndDeleteLinks } from "../utils/UpdateAndDeleteLinks";
@@ -22,11 +23,26 @@ export const AppointmentTable = () => {
             dataIndex: "siteLocation",
         },
         { key: "serviceType", title: "Service Type", dataIndex: "serviceType" },
-        { key: "appointmentDate", title: "Appointment Date", dataIndex: "appointmentDate" },
+        {
+            key: "appointmentDate",
+            title: "Appointment Date",
+            dataIndex: "appointmentDate",
+        },
         {
             key: "actions",
             title: "Actions",
-            render: () => (admin ? <UpdateAndDeleteLinks /> : ""),
+            render: (value) =>
+                admin ? (
+                    <UpdateAndDeleteLinks
+                        updateLink={`${UPDATE_APPOINTMENT.replace(
+                            ":appointmentId",
+                            value.id
+                        )}`}
+                        deleteLink={{ type: "appointment", id: value.id }}
+                    />
+                ) : (
+                    "-"
+                ),
         },
     ];
 
@@ -35,8 +51,8 @@ export const AppointmentTable = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{ pageSize: 1 }}
-                rowKey="patientId"
+                pagination={{ pageSize: 10 }}
+                rowKey="id"
             />
         </div>
     );

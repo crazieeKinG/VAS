@@ -5,7 +5,7 @@ import { LOGIN, LOGOUT } from "../../constants/navLinkConstants";
 import { RootState } from "../../store/store";
 
 export const LogInAndOutNavLinks = () => {
-    const authentication = useSelector((state: RootState) => state.login.data.token);
+    const authentication = useSelector((state: RootState) => state.login.data.accessToken);
 
     if (!authentication)
         return (

@@ -1,7 +1,13 @@
-import { Table } from "antd";
+import { EyeFilled } from "@ant-design/icons";
+import { Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import {
+    LIST_PATIENT,
+    PATIENT_APPOINTMENT,
+    UPDATE_PATIENT,
+} from "../../constants/navLinkConstants";
 import { patientInformationInterface } from "../../store/sliceInterface/patientInformationInterface";
 import { vaccineServiceInterface } from "../../store/sliceInterface/vaccineServiceInterface";
 import { RootState } from "../../store/store";
@@ -14,9 +20,29 @@ const columns: ColumnsType<patientInformationInterface> = [
         dataIndex: "firstName",
     },
     {
+        key: "lastName",
+        title: "Last Name",
+        dataIndex: "lastName",
+    },
+    {
+        key: "email",
+        title: "Email",
+        dataIndex: "email",
+    },
+    {
+        key: "view",
+        title: "View Details",
+        render: () => <Button icon={<EyeFilled />}>View</Button>,
+    },
+    {
         key: "actions",
         title: "Actions",
-        render: UpdateAndDeleteLinks,
+        render: (value) => (
+            <UpdateAndDeleteLinks
+                updateLink={`${UPDATE_PATIENT.replace(":patientId", value.id)}`}
+                deleteLink={{ type: "patient", id: value.id }}
+            />
+        ),
     },
 ];
 
@@ -28,7 +54,7 @@ export const PatientTable = () => {
             <Table
                 columns={columns}
                 dataSource={data}
-                pagination={{ pageSize: 1 }}
+                pagination={{ pageSize: 10 }}
                 rowKey="email"
             />
         </div>

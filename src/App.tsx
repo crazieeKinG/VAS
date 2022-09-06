@@ -5,6 +5,8 @@ import "./App.css";
 import { Provider } from "react-redux";
 import { RootState, store } from "./store/store";
 import { useSelector } from "react-redux";
+import "./utils/axiosConfig";
+
 function App() {
     return (
         <div>

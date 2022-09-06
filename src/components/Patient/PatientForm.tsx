@@ -10,30 +10,35 @@ import {
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { insertPatient, updatePatient } from "../../api/patientApi";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
 import { LIST_PATIENT, LOGIN } from "../../constants/navLinkConstants";
+import { PENDING } from "../../constants/sliceConstants";
 import { setPatientDetails } from "../../store/slice/patientInformationSlice";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
 const { Item } = Form;
 const { Option } = Select;
 
 export const PatientForm = (props: FormAdminPropsInterface) => {
-    const dispatch = useDispatch();
+    const { patientId } = useParams();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const admin = useSelector((state: RootState) => state.login.data.isAdmin);
+    console.log(admin);
+    const { loading } = useSelector((state: RootState) => state.patient);
     const [form] = Form.useForm();
 
     const [aggrementChecked, setAggrementChecked] = useState(false);
 
-    const handleForm = (values: any) => {
-        const formatedData = {
+    const handleForm = async (values: any) => {
+        const formData = new FormData();
+        let formatedData: any = {
             firstName: values.firstName,
             lastName: values.lastName,
             email: values.email,
-            password: values.password,
             dob: values.dob.format("YYYY-MM-DD").toString(),
             gender: values.gender,
             ethnicity: values.ethnicity,
@@ -43,12 +48,20 @@ export const PatientForm = (props: FormAdminPropsInterface) => {
             insuranceId: values.insuranceId,
             memberId: values.memberId,
             insuranceProvider: values.insuranceProvider,
-            document: values.document?.file,
+            isAdmin: values.isAdmin ? true : false,
         };
 
-        dispatch(setPatientDetails(formatedData));
-        navigate(admin ? LIST_PATIENT : LOGIN);
+        for (const key in formatedData) formData.append(key, formatedData[key]);
+
+        if (!!values.password) formData.append("password", values.password);
+        if (!!values.document) formData.append("photo", values.document.file);
+        if (patientId) formData.append("id", patientId);
+
+        patientId
+            ? await dispatch(updatePatient(formData))
+            : await dispatch(insertPatient(formData));
         form.resetFields();
+        navigate(admin ? LIST_PATIENT : LOGIN);
     };
 
     const handleAggrement = () => {
@@ -62,6 +75,7 @@ export const PatientForm = (props: FormAdminPropsInterface) => {
             labelCol={{ span: 5 }}
             onFinish={handleForm}
             className="margin-top"
+            initialValues={props.initialState}
         >
             <Item
                 label="First name"
@@ -88,7 +102,7 @@ export const PatientForm = (props: FormAdminPropsInterface) => {
             <Item
                 label="Password"
                 name="password"
-                rules={FORM_DEFAULT_REQUIRED_RULE}
+                rules={props.initialState.id ? [] : FORM_DEFAULT_REQUIRED_RULE}
             >
                 <Input.Password placeholder="Enter new password" />
             </Item>
@@ -183,6 +197,12 @@ export const PatientForm = (props: FormAdminPropsInterface) => {
                 </Upload>
             </Item>
 
+            {admin && (
+                <Item name="isAdmin" valuePropName="checked">
+                    <Checkbox>Manager Role</Checkbox>
+                </Item>
+            )}
+
             <Item name="aggrement" valuePropName="checked">
                 <Checkbox onChange={handleAggrement}>I Agree</Checkbox>
             </Item>
@@ -192,6 +212,7 @@ export const PatientForm = (props: FormAdminPropsInterface) => {
                     type="primary"
                     htmlType="submit"
                     disabled={!aggrementChecked}
+                    loading={loading === PENDING}
                 >
                     {props.admin ? "Submit" : "Register"}
                 </Button>

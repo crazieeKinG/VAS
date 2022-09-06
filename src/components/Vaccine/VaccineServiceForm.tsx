@@ -1,29 +1,40 @@
 import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { insertVaccine, updateVaccine } from "../../api/vaccineApi";
 import { FORM_DEFAULT_REQUIRED_RULE } from "../../constants/formRequiredRulle";
 import { LIST_VACCINATION } from "../../constants/navLinkConstants";
+import { PENDING } from "../../constants/sliceConstants";
 import { setVaccine } from "../../store/slice/vaccineSlice";
+import { AppDispatch, RootState } from "../../store/store";
+import { FormAdminPropsInterface } from "../../utils/FormAdminPropsInterface";
 
-export const VaccineServiceForm = () => {
-    const dispatch = useDispatch();
+export const VaccineServiceForm = (props: FormAdminPropsInterface) => {
+    const { vaccineId } = useParams();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
+    const loading = useSelector((state: RootState) => state.vaccine.loading);
     const { Item } = Form;
     const { Option } = Select;
 
-    const handleForm = (values: any) => {
+    const handleForm = async (values: any) => {
         const formattedData = {
             serviceName: values.serviceName,
             serviceLocation: values.serviceLocation,
             startDate: values.startDate.format("YYYY-MM-DD"),
             endDate: values.endDate.format("YYYY-MM-DD"),
-            doses: values.doses,
+            numberOfDoses: values.numberOfDoses,
             gender: values.gender,
             age: values.age,
-            ethinicity: values.ethinicity,
+            ethnicity: values.ethnicity,
         };
 
-        dispatch(setVaccine(formattedData));
+        vaccineId
+            ? await dispatch(
+                  updateVaccine({ ...formattedData, id: +vaccineId })
+              )
+            : await dispatch(insertVaccine(formattedData));
         navigate(LIST_VACCINATION);
     };
 
@@ -33,6 +44,7 @@ export const VaccineServiceForm = () => {
             labelAlign="left"
             className="margin-top"
             onFinish={handleForm}
+            initialValues={props.initialState}
         >
             <Item
                 label="Service name"
@@ -64,7 +76,7 @@ export const VaccineServiceForm = () => {
             </Item>
             <Item
                 label="Number of doses"
-                name="doses"
+                name="numberOfDoses"
                 rules={FORM_DEFAULT_REQUIRED_RULE}
             >
                 <InputNumber
@@ -106,7 +118,11 @@ export const VaccineServiceForm = () => {
                 <Input placeholder="Enter ethnicity" />
             </Item>
             <Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loading === PENDING}
+                >
                     Submit
                 </Button>
             </Item>

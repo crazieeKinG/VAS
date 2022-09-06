@@ -1,4 +1,5 @@
 export interface patientInformationInterface {
+    id?: number;
     firstName: string;
     lastName: string;
     email: string;
@@ -12,5 +13,5 @@ export interface patientInformationInterface {
     insuranceId: string;
     memberId: string;
     insuranceProvider: string;
-    document: File;
+    photo?: File;
 }

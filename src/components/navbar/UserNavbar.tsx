@@ -14,8 +14,8 @@ export const UserNavbar = () => {
 
     const patientNavigationComponent = PATIENT_NAVIGATION_COMPONENT.map(
         (navLink) => {
-            if (authentication.token && navLink.title === "Register") return;
-            if (!authentication.token && navLink.title === "Appointment")
+            if (authentication.accessToken && navLink.title === "Register") return;
+            if (!authentication.accessToken && navLink.title === "Appointment")
                 return;
 
             const buttonType =

@@ -6,6 +6,7 @@ import * as route from "../constants/navLinkConstants";
 import { AppointmentList } from "../pages/Appointment/AppointmentList";
 import { ScheduleAppointment } from "../pages/Appointment/ScheduleAppointment.";
 import { Home } from "../pages/home/Home";
+import ManagerHome from "../pages/home/ManagerHome";
 import { Login } from "../pages/login/Login";
 import { ManagerLogin } from "../pages/login/ManagerLogin";
 import { Logout } from "../pages/logout/Logout";
@@ -23,7 +24,7 @@ export const RoutesPath = () => {
     useEffect(() => {
         document.title = title;
     }, [title]);
-    
+
     return (
         <BrowserRouter>
             <Routes>
@@ -49,6 +50,7 @@ export const RoutesPath = () => {
                     path={route.MANAGER}
                     element={<ManagerAuthenticatedRoutes />}
                 >
+                    <Route index element={<ManagerHome />} />
                     <Route path={route.ADD_PATIENT} element={<Register />} />
                     <Route path={route.UPDATE_PATIENT} element={<Register />} />
                     <Route

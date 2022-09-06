@@ -1,10 +1,11 @@
 export interface vaccineServiceInterface {
+    id?: number;
     serviceName: string;
     serviceLocation: string;
     startDate: string;
     endDate: string;
-    doses: number;
+    numberOfDoses: number;
     gender: string;
     age: number;
-    ethinicity: string;
+    ethnicity: string;
 }

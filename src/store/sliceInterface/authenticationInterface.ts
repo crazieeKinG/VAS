@@ -1,5 +1,12 @@
 export interface authenticationInterface {
     username: string;
-    token: string;
+    accessToken: string;
     isAdmin: boolean;
 }
+
+export interface credentailsInterface {
+    email: string;
+    password: string;
+}
+
+
